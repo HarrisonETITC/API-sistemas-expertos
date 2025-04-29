@@ -1,0 +1,22 @@
+
+<div class="card-container">
+    <div class="left-side">
+        <mat-icon
+            class="material-symbols-outlined"
+            [fontIcon]="weatherInfo.icon.icon"
+        ></mat-icon>
+        <p class="weather-name">{{ weatherInfo.weatherName }}</p>
+        <div class="weather-info">
+            <p>Velocidad del viento</p>
+            <span>{{ weatherInfo.wind }}km/h</span>
+        </div>
+        <div class="weather-info">
+            <p>Humedad</p>
+            <span>{{ weatherInfo.humidity }}%</span>
+        </div>
+    </div>
+    <div class="right-side">
+        <p class="city-name">{{ weatherInfo.cityName }}</p>
+        <p class="temperature">{{ weatherInfo.temperature }}°C</p>
+    </div>
+</div>

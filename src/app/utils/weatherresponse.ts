@@ -10,6 +10,8 @@ export interface WeatherResponse {
         relative_humidity_2m: number;
         weather_code: number;
         wind_speed_10m: number;
+        time: string;
     },
+    timezone_abbreviation: string;
     cityName: string;
 }

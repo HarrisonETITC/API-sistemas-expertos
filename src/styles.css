@@ -1,9 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "@angular/material/prebuilt-themes/cyan-orange.css";
+
+:root {
+    --primary-bg: #020817;
+    --secondary-bg: #232d44;
+    --main-text-color: #f8fafc;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: var(--main-text-color)
 }
 
 html {

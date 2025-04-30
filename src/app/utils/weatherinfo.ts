@@ -6,5 +6,9 @@ export interface WeatherInfo {
     humidity: string;
     cityName: string;
     temperature: string;
+    elevation?: number;
+    country?: string;
+    timezone?: string;
+    hour?: string;
     icon?: WeatherIconStyle;
 }

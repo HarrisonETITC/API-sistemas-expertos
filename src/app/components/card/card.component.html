@@ -1,4 +1,3 @@
-
 <div class="card-container">
     <div class="left-side">
         <mat-icon
@@ -16,7 +15,16 @@
         </div>
     </div>
     <div class="right-side">
-        <p class="city-name">{{ weatherInfo.cityName }}</p>
-        <p class="temperature">{{ weatherInfo.temperature }}°C</p>
+        <div class="main-info">
+            <p class="city-name">{{ weatherInfo.cityName }}</p>
+            @if (weatherInfo.country) {
+                <p class="country-name">{{ weatherInfo.country }}</p>
+            }
+            <p class="temperature">{{ weatherInfo.temperature }}°C</p>
+        </div>
+        <div class="extra-info">
+            <p class="info-text">Última actualización</p>
+            <p>{{ weatherInfo.hour }} ({{ weatherInfo.timezone }})</p>
+        </div>
     </div>
 </div>

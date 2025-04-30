@@ -3,22 +3,24 @@ import { WeatherIconStyle } from "./weathericonstyle";
 export const defaultCities = [
     "Bogotá",
     "Madrid",
-    "Nueva York",
+    "New York",
     "Barcelona",
-    "Londres",
+    "London",
     "París",
-    "Ciudad de México",
+    "México City",
     "Berlín",
     "Sídney",
     "Toronto",
-    "El Cairo",
-    "Moscú",
-    "Pekín",
+    "Cairo",
+    "Moscow",
+    "Beijing",
     "Buenos Aires",
-    "Estambul",
-    "Seúl",
+    "Istanbul",
+    "Seoul",
     "Bangkok",
-    "Yakarta"
+    "Tokyo",
+    "Lima",
+    "Montevideo"
 ]
 
 export const weatherCodeDescriptions: { [code: number]: string } = {

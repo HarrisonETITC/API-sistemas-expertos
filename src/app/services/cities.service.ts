@@ -5,11 +5,12 @@ import { CityResponse } from '../utils/cityinfo';
 import { WeatherInfo } from '../utils/weatherinfo';
 import { WeatherResponse } from '../utils/weatherresponse';
 import { getWeatherIcon, weatherCodeDescriptions } from '../utils/static';
+import { WeatherServiceInterface } from '../utils/weather-service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CitiesService {
+export class CitiesService implements WeatherServiceInterface {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly citiesUrl: string = 'https://nominatim.openstreetmap.org/search?format=json&q';
   private readonly weatherUrl: string = 'https://api.open-meteo.com/v1/forecast';
@@ -31,7 +32,7 @@ export class CitiesService {
           return false;
         });
       }),
-      defaultIfEmpty([])// Manejo de errores: devuelve un array vacío en caso de error
+      defaultIfEmpty([])
     );
   }
 
@@ -54,5 +55,9 @@ export class CitiesService {
         icon: getWeatherIcon(weather.current.weather_code, weather.current.is_day)
       }))
     )
+  }
+
+  getWeatherByCityName(cityName: string): Observable<WeatherInfo> {
+    throw new Error('Method not implemented.');
   }
 }

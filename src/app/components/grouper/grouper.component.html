@@ -1,31 +1,33 @@
-@if(showSeachBar) {
-    <div class="grouper-header">
-        <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>Buscar ciudad por nombre</mat-label>
-            <input
-            [formControl]="searchControl"
-            type="text"
-            matInput>
-        </mat-form-field>
-        <button mat-fab (click)="resetOriginal()">
-            <mat-icon fontIcon="refresh"></mat-icon>
-        </button>
-    </div>
-}
-@if(weatherFiltered.length == 0) {
-    <div class="empty-grouper">
-        <p>No se encontraron resultados</p>
-    </div>
-}
-@if (weatherFiltered.length > 0) {
-    <div class="grouper-container">
-        <div class="card-container">
-            @for (cardInfo of weatherFiltered; track $index) {
-                <app-card
-                    [weatherInfo]="cardInfo"
-                ></app-card>
-            }    
+<div class="main-grouper-container">
+    @if(showSeachBar) {
+        <div class="grouper-header">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Buscar ciudad por nombre</mat-label>
+                <input
+                [formControl]="searchControl"
+                type="text"
+                matInput>
+            </mat-form-field>
+            <button mat-fab (click)="resetOriginal()">
+                <mat-icon fontIcon="refresh"></mat-icon>
+            </button>
         </div>
-    </div>
-    
-}
+    }
+    @if(weatherFiltered.length == 0) {
+        <div class="empty-grouper">
+            <p>No se encontraron resultados</p>
+        </div>
+    }
+    @if (weatherFiltered.length > 0) {
+        <div class="grouper-container">
+            <div class="card-container">
+                @for (cardInfo of weatherFiltered; track $index) {
+                    <app-card
+                        [weatherInfo]="cardInfo"
+                    ></app-card>
+                }    
+            </div>
+        </div>
+        
+    }
+</div>

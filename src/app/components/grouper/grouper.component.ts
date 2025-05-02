@@ -3,19 +3,21 @@ import { CardComponent } from '../card/card.component';
 import { CitiesService } from '../../services/cities.service';
 import { WeatherInfo } from '../../utils/weatherinfo';
 import { defaultCities } from '../../utils/static';
-import { from, concatMap, delay, tap, throttleTime, distinctUntilChanged, filter, finalize } from 'rxjs';
+import { from, concatMap, delay, tap, throttleTime, distinctUntilChanged, filter, finalize, Observable, of, switchMap } from 'rxjs';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CityResponseMeteo } from '../../classes/cityresponsemeteo';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { WeatherService } from '../../services/weather.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-grouper',
   imports: [
-    CardComponent, FormsModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatIconModule
+    CardComponent, FormsModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatIconModule, MatAutocompleteModule, CommonModule
   ],
   templateUrl: './grouper.component.html',
   styleUrl: './grouper.component.css'
@@ -27,6 +29,7 @@ export class GrouperComponent implements OnInit {
   protected weatherFiltered: WeatherInfo[] = [];
   protected searchControl = new FormControl('');
   protected showSeachBar = false;
+  protected options$: Observable<CityResponseMeteo[]> = of([]);
 
   ngOnInit(): void {
     this.init();
@@ -77,24 +80,45 @@ export class GrouperComponent implements OnInit {
   }
 
   initControl(): void {
-    this.searchControl.valueChanges.pipe(
-      throttleTime(200, undefined, { leading: false, trailing: true }),
-      filter((query) => {
-        if (query === '')
-          this.weatherFiltered = [];
+    // this.searchControl.valueChanges.pipe(
+    //   throttleTime(200, undefined, { leading: false, trailing: true }),
+    //   filter((query) => {
+    //     if (query === '')
+    //       this.weatherFiltered = [];
 
-        return query !== ''
-      }),
+    //     return query !== ''
+    //   }),
+    //   distinctUntilChanged(),
+    //   tap((query) => {
+    //     this.weatherFiltered = [];
+    //     this.searchCity(query)
+    //   })
+    // ).subscribe();
+    this.options$ = this.searchControl.valueChanges.pipe(
+      throttleTime(400, undefined, { leading: false, trailing: true }),
       distinctUntilChanged(),
-      tap((query) => {
-        this.weatherFiltered = [];
-        this.searchCity(query)
+      switchMap((query) => {
+        if (typeof query === 'string' && query.length > 2) {
+          return this.service2.getCitiesByQuery(query);
+        }
+
+        return of([]);
       })
-    ).subscribe();
+    )
   }
 
   resetOriginal(): void {
     this.weatherFiltered = this.weathersOriginal;
     this.searchControl.setValue('', { emitEvent: false });
+  }
+
+  displayFn(city: any): string {
+    return city && 'name' in city && 'country' in city ? `${city.name} - ${city.country}` : '';
+  }
+
+  citySelected(event: MatAutocompleteSelectedEvent): void {
+    const city: CityResponseMeteo = event.option.value;
+    this.weatherFiltered = [];
+    this.loadCityInfo(city, false)
   }
 }

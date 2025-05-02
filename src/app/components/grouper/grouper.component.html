@@ -6,8 +6,22 @@
                 <input
                 [formControl]="searchControl"
                 type="text"
-                matInput>
+                matInput
+                [matAutocomplete]="auto">
             </mat-form-field>
+            <mat-autocomplete
+                #auto="matAutocomplete"
+                [displayWith]="displayFn"
+                (optionSelected)="citySelected($event)"
+            >
+                @for(cityInfo of options$ | async; track $index) {
+                    <mat-option
+                        [value]="cityInfo"
+                    >
+                        {{ displayFn(cityInfo) }}
+                    </mat-option>
+                }
+            </mat-autocomplete>
             <button mat-fab (click)="resetOriginal()">
                 <mat-icon fontIcon="refresh"></mat-icon>
             </button>
